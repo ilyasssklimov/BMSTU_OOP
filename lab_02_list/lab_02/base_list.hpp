@@ -8,18 +8,15 @@
 class BaseList
 {
 protected:
-    size_t size;
+    int size;
 
 public:
-    virtual size_t get_size() const noexcept = 0;
-    virtual operator bool() const noexcept = 0;
-    virtual void clear() noexcept = 0;
+    virtual int get_size() const = 0;
+    virtual operator bool() const = 0;
+    virtual void clear() = 0;
 
-    virtual ~BaseList() = 0;
+    virtual ~BaseList() = default;
 };
-
-
-BaseList::~BaseList() {}
 
 
 #endif

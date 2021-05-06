@@ -54,6 +54,9 @@ SOURCES       = ../lab_02/main.cpp
 OBJECTS       = debug/main.o
 
 DIST          =  base_list.hpp \
+		const_iterator.h \
+		const_iterator.hpp \
+		exception.hpp \
 		iterator.h \
 		iterator.hpp \
 		list.h \
@@ -107,9 +110,16 @@ compiler_clean:
 
 ####### Compile
 
-debug/main.o: ../lab_02/main.cpp ../lab_02/list.h \
+debug/main.o: ../lab_02/main.cpp ../lab_02/list.hpp \
+		../lab_02/list.h \
 		../lab_02/node.h \
-		../lab_02/base_list.hpp
+		../lab_02/iterator.h \
+		../lab_02/const_iterator.h \
+		../lab_02/base_list.hpp \
+		../lab_02/node.hpp \
+		../lab_02/exception.hpp \
+		../lab_02/iterator.hpp \
+		../lab_02/const_iterator.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/main.o ../lab_02/main.cpp
 
 ####### Install

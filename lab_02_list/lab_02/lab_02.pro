@@ -8,6 +8,9 @@ SOURCES += \
 
 HEADERS += \
     base_list.hpp \
+    const_iterator.h \
+    const_iterator.hpp \
+    exception.hpp \
     iterator.h \
     iterator.hpp \
     list.h \

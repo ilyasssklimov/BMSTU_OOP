@@ -67,6 +67,13 @@ T& ListNode<T>::get_data()
 
 
 template <typename T>
+const T& ListNode<T>::get_data() const
+{
+   return data;
+}
+
+
+template <typename T>
 shared_ptr<ListNode<T>> ListNode<T>::get_next(void)
 {
     return next;

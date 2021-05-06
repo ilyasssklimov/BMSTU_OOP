@@ -1,17 +1,14 @@
 #ifndef ITERATOR_H
 #define ITERATOR_H
 
-#include <iterator>
+
 #include "node.h"
 using namespace std;
 
 
 template <typename T>
-class ListIterator: iterator<input_iterator_tag, T>
+class ListIterator
 {
-private:
-    weak_ptr<ListNode<T>> pointer;
-
 public:
     ListIterator();
     ListIterator(const ListIterator<T> &iterator);
@@ -19,10 +16,10 @@ public:
 
     virtual void next();
 
-    ListIterator<T> &operator += (const int &size);
+    ListIterator<T> &operator += (const int size);
     ListIterator<T> &operator ++ ();
     ListIterator<T> operator ++ (int);
-    ListIterator<T> operator + (const int &size);
+    ListIterator<T> operator + (const int size) const;
     ListIterator<T> operator = (const ListIterator<T> &iterator);
 
     bool operator != (const ListIterator<T> &iterator) const;
@@ -30,15 +27,18 @@ public:
 
     operator bool() const;
 
-    T *operator -> ();
+    ListNode<T> *operator -> ();
+    const ListNode<T> *operator -> () const;
+    ListNode<T> &operator * ();
+    const ListNode<T> &operator * () const;
 
-    /*
-    list_node<T> *operator ->();
-     const list_node<T> *operator ->() const;
+protected:
+    void is_shared(int line) const;
 
-     const list_node<T> &operator *() const;
-     list_node<T> &operator *();
+private:
+    weak_ptr<ListNode<T>> pointer;
 
-   */
 };
+
+
 #endif

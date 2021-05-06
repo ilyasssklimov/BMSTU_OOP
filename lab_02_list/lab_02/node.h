@@ -24,6 +24,7 @@ public:
     void put_next(const ListNode<T> &node);
 
     T &get_data();
+    const T &get_data() const;
     shared_ptr<ListNode<T>> get_next();
 
     bool operator == (const shared_ptr<ListNode<T>> &node) const;

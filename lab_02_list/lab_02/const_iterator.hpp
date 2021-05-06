@@ -1,34 +1,34 @@
-#ifndef ITERATOR_HPP
-#define ITERATOR_HPP
+#ifndef CONST_ITERATOR_HPP
+#define CONST_ITERATOR_HPP
 
 #include <time.h>
-#include "iterator.h"
+#include "const_iterator.h"
 #include "exception.hpp"
 
 
 template <typename T>
-ListIterator<T>::ListIterator()
+ConstListIterator<T>::ConstListIterator()
 {
-    pointer.lock() = nullptr;
+    pointer = nullptr;
 }
 
 
 template <typename T>
-ListIterator<T>::ListIterator(const ListIterator<T> &iterator)
+ConstListIterator<T>::ConstListIterator(const ConstListIterator<T> &iterator)
 {
     pointer = iterator.pointer.lock();
 }
 
 
 template <typename T>
-ListIterator<T>::ListIterator(const shared_ptr<ListNode<T>> &node)
+ConstListIterator<T>::ConstListIterator(const shared_ptr<ListNode<T>> &node)
 {
     pointer = node;
 }
 
 
 template <typename T>
-void ListIterator<T>::next(void)
+void ConstListIterator<T>::next(void)
 {
     is_shared(__LINE__);
     pointer = pointer.lock()->get_next();
@@ -36,7 +36,7 @@ void ListIterator<T>::next(void)
 
 
 template <typename T>
-ListIterator<T> &ListIterator<T>::operator += (const int size)
+ConstListIterator<T> &ConstListIterator<T>::operator += (const int size)
 {
     if (size < 0)
     {
@@ -52,7 +52,7 @@ ListIterator<T> &ListIterator<T>::operator += (const int size)
 
 
 template <typename T>
-ListIterator<T> &ListIterator<T>::operator ++ ()
+ConstListIterator<T> &ConstListIterator<T>::operator ++ ()
 {
     next();
     return *this;
@@ -60,25 +60,25 @@ ListIterator<T> &ListIterator<T>::operator ++ ()
 
 
 template <typename T>
-ListIterator<T> ListIterator<T>::operator ++ (int)
+ConstListIterator<T> ConstListIterator<T>::operator ++ (int)
 {
-    ListIterator<T> tmp(*this);
+    ConstListIterator<T> tmp(*this);
     next();
     return tmp;
 }
 
 
 template <typename T>
-ListIterator<T> ListIterator<T>::operator + (const int size) const
+ConstListIterator<T> ConstListIterator<T>::operator + (const int size) const
 {
-    ListIterator<T> tmp(*this);
-    tmp += size;
-    return tmp;
+    ConstListIterator<T> temp(*this);
+    temp += size;
+    return temp;
 }
 
 
 template <typename T>
-ListIterator<T> ListIterator<T>::operator = (const ListIterator<T> &iterator)
+ConstListIterator<T> ConstListIterator<T>::operator = (const ConstListIterator<T> &iterator)
 {
     // is_shared(__LINE__);
     pointer = iterator.pointer.lock();
@@ -87,7 +87,7 @@ ListIterator<T> ListIterator<T>::operator = (const ListIterator<T> &iterator)
 
 
 template <typename T>
-bool ListIterator<T>::operator != (const ListIterator<T> &iterator) const
+bool ConstListIterator<T>::operator != (const ConstListIterator<T> &iterator) const
 {
     // is_shared(__LINE__);
     return pointer.lock() != iterator.pointer.lock();
@@ -95,7 +95,7 @@ bool ListIterator<T>::operator != (const ListIterator<T> &iterator) const
 
 
 template <typename T>
-bool ListIterator<T>::operator == (const ListIterator<T> &iterator) const
+bool ConstListIterator<T>::operator == (const ConstListIterator<T> &iterator) const
 {
     // is_shared(__LINE__);
     return pointer.lock() == iterator.pointer.lock();
@@ -103,7 +103,7 @@ bool ListIterator<T>::operator == (const ListIterator<T> &iterator) const
 
 
 template <typename T>
-ListIterator<T>::operator bool() const
+ConstListIterator<T>::operator bool() const
 {
     // is_shared(__LINE__);
     return pointer.lock() != nullptr;
@@ -111,7 +111,7 @@ ListIterator<T>::operator bool() const
 
 
 template <typename T>
-ListNode<T> *ListIterator<T>::operator -> ()
+const ListNode<T> *ConstListIterator<T>::operator -> () const
 {
     is_shared(__LINE__);
     return pointer.lock().get();
@@ -119,31 +119,15 @@ ListNode<T> *ListIterator<T>::operator -> ()
 
 
 template <typename T>
-const ListNode<T> *ListIterator<T>::operator -> () const
+const ListNode<T> &ConstListIterator<T>::operator * () const
 {
     is_shared(__LINE__);
-    return pointer.lock().get();
+    return *pointer.lock().get();
 }
 
 
 template <typename T>
-ListNode<T> &ListIterator<T>::operator * ()
-{
-    is_shared(__LINE__);
-    return *pointer.lock();
-}
-
-
-template <typename T>
-const ListNode<T> &ListIterator<T>::operator * () const
-{
-    is_shared(__LINE__);
-    return *pointer.lock();
-}
-
-
-template <typename T>
-void ListIterator<T>::is_shared(int line) const
+void ConstListIterator<T>::is_shared(int line) const
 {
     if (pointer.expired())
     {
@@ -151,7 +135,5 @@ void ListIterator<T>::is_shared(int line) const
         throw SharedPtrError(__FILE__, line, ctime(&time_now));
     }
 }
-
-
 
 #endif
