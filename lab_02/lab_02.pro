@@ -7,8 +7,13 @@ SOURCES += \
         main.cpp
 
 HEADERS += \
-    base_matrix.hpp \
+    base_list.hpp \
+    const_iterator.h \
+    const_iterator.hpp \
+    exception.hpp \
+    iterator.h \
     iterator.hpp \
-    matrix.hpp \
-    matrix_data.hpp \
-    matrix_iterator.hpp
+    list.h \
+    list.hpp \
+    node.h \
+    node.hpp
