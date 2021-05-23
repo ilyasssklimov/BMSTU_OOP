@@ -20,7 +20,13 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
-    mainwindow.h
+    base_command.h \
+    base_object.h \
+    commands/base_command.h \
+    commands/model_commands.h \
+    mainwindow.h \
+    model_commands.h \
+    objects/base_object.h
 
 FORMS += \
     mainwindow.ui
