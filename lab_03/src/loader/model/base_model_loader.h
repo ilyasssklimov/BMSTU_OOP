@@ -4,7 +4,8 @@
 
 #include "../base_loader.h"
 #include "./objects/base_object.h"
-#include "./builder/base_builder.h"
+#include "./builder/model/model_builder.h"
+
 
 
 class BaseModelLoader: public BaseLoader
@@ -12,5 +13,6 @@ class BaseModelLoader: public BaseLoader
 public:
     virtual shared_ptr<BaseObject> load(shared_ptr<ModelBuilder> builder) = 0;
 };
+
 
 #endif

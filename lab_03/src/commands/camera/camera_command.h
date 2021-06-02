@@ -11,10 +11,7 @@
 using namespace std;
 
 
-class CameraBaseCommand: public BaseCommand {};
-
-
-class LoadCamera: public CameraBaseCommand
+class LoadCamera: public BaseCommand
 {
 public:
     LoadCamera() = delete;
@@ -28,7 +25,7 @@ private:
 };
 
 
-class SetCamera: public CameraBaseCommand
+class SetCamera: public BaseCommand
 {
 public:
     SetCamera() = delete;
@@ -42,7 +39,7 @@ private:
 };
 
 
-class AddCamera: public CameraBaseCommand
+class AddCamera: public BaseCommand
 {
 public:
     AddCamera() = delete;
@@ -56,7 +53,7 @@ private:
 };
 
 
-class DeleteCamera: public CameraBaseCommand
+class DeleteCamera: public BaseCommand
 {
 public:
     DeleteCamera() = delete;
@@ -70,7 +67,7 @@ private:
 };
 
 
-class MoveCamera: public CameraBaseCommand
+class MoveCamera: public BaseCommand
 {
 public:
     MoveCamera() = delete;
@@ -85,7 +82,7 @@ private:
 };
 
 
-class TurnCamera: public CameraBaseCommand
+class TurnCamera: public BaseCommand
 {
 public:
     TurnCamera() = delete;
@@ -99,5 +96,18 @@ private:
     size_t n;
 };
 
+
+class CountCamera : public BaseCommand
+{
+public:
+    CountCamera() = delete;
+    explicit CountCamera(shared_ptr<size_t> &count);
+    void execute() override;
+
+    ~CountCamera() override = default;
+
+private:
+    shared_ptr<size_t> &count;
+};
 
 #endif

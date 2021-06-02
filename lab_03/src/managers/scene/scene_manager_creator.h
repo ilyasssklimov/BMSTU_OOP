@@ -11,7 +11,7 @@ using namespace std;
 class SceneManagerCreator
 {
 public:
-    shared_ptr<SceneManager> create_manager();
+    shared_ptr<SceneManager> get_manager();
 
 private:
     shared_ptr<SceneManager> manager;

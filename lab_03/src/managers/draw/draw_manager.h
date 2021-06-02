@@ -2,9 +2,12 @@
 #define DRAW_MANAGER_H
 
 
+#include <memory>
 #include "../base_manager.h"
 #include "./visitor/visitor.h"
 #include "./draw/base_draw.h"
+
+using namespace std;
 
 
 class DrawManager: public BaseManager, public Visitor
@@ -17,7 +20,7 @@ public:
     void visit(const Composite &composite) override;
 
     void set_drawer(shared_ptr<BaseDraw> drawer);
-    void set_camera(shared_ptr<Camera> &camera);
+    void set_camera(shared_ptr<Camera> camera);
 
     ~DrawManager() = default;
 

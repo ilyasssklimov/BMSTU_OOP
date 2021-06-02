@@ -24,7 +24,7 @@ void DrawManager::set_drawer(shared_ptr<BaseDraw> drawer)
 }
 
 
-void DrawManager::set_camera(shared_ptr<Camera> &camera)
+void DrawManager::set_camera(shared_ptr<Camera> camera)
 {
     this->camera = camera;
 }

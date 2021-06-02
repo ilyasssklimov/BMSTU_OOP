@@ -8,7 +8,7 @@
 class TransformManagerCreator
 {
 public:
-    shared_ptr<TransformManager> create_manager();
+    shared_ptr<TransformManager> get_manager();
 
 private:
     shared_ptr<TransformManager> manager;

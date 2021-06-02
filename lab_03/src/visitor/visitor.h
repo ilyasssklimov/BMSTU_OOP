@@ -6,9 +6,9 @@
 // #include "./objects/composite/composite.h"
 
 
-class Model;
 class Camera;
 class Composite;
+class Model;
 
 
 class Visitor

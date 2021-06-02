@@ -12,10 +12,7 @@
 using namespace std;
 
 
-class ModelBaseCommand: public BaseCommand {};
-
-
-class LoadModel: public ModelBaseCommand
+class LoadModel: public BaseCommand
 {
 public:
     LoadModel() = delete;
@@ -29,7 +26,7 @@ private:
 };
 
 
-class AddModel: public ModelBaseCommand
+class AddModel: public BaseCommand
 {
 public:
     AddModel() = delete;
@@ -43,7 +40,7 @@ private:
 };
 
 
-class MoveModel: public ModelBaseCommand
+class MoveModel: public BaseCommand
 {
 public:
     MoveModel() = delete;
@@ -58,7 +55,7 @@ private:
 };
 
 
-class ScaleModel: public ModelBaseCommand
+class ScaleModel: public BaseCommand
 {
 public:
     ScaleModel() = delete;
@@ -73,7 +70,7 @@ private:
 };
 
 
-class TurnModel: public ModelBaseCommand
+class TurnModel: public BaseCommand
 {
 public:
     TurnModel() = delete;
@@ -88,7 +85,7 @@ private:
 };
 
 
-class TransformModel: public ModelBaseCommand
+class TransformModel: public BaseCommand
 {
 public:
     TransformModel() = delete;
@@ -103,7 +100,7 @@ private:
 };
 
 
-class DeleteModel: public ModelBaseCommand
+class DeleteModel: public BaseCommand
 {
 public:
     DeleteModel() = delete;
@@ -114,6 +111,20 @@ public:
 
 private:
     size_t n;
+};
+
+
+class CountModel: public BaseCommand
+{
+public:
+    CountModel() = delete;
+    explicit CountModel(shared_ptr<size_t> &count);
+    void execute() override;
+
+    ~CountModel() override = default;
+
+private:
+    shared_ptr<size_t> &count;
 };
 
 

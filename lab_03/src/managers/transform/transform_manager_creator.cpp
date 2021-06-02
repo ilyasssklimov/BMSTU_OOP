@@ -1,7 +1,7 @@
 #include "transform_manager_creator.h"
 
 
-shared_ptr<TransformManager> TransformManagerCreator::create_manager()
+shared_ptr<TransformManager> TransformManagerCreator::get_manager()
 {
     if (manager == nullptr)
     {

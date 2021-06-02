@@ -11,7 +11,7 @@ using namespace std;
 class DrawManagerCreator
 {
 public:
-    shared_ptr<DrawManager> create_manager();
+    shared_ptr<DrawManager> get_manager();
 
 private:
     shared_ptr<DrawManager> manager;

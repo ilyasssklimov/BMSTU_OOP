@@ -17,10 +17,7 @@ void Model::transform(const Vertex &move, const Vertex &scale, const Vertex &tur
 
 void Model::accept(shared_ptr<Visitor> visitor)
 {
-    //visitor->visit(*this);
-    Model* tmp = new Model();
-    Composite tmp_composite;
-    visitor->visit(tmp_composite);
+    visitor->visit(*this);
 }
 
 

@@ -12,7 +12,7 @@
 using namespace std;
 
 
-class Scene: BaseObject
+class Scene
 {
 public:
     Scene();
@@ -25,16 +25,17 @@ public:
 
     vector<shared_ptr<BaseObject>> get_models();
     vector<shared_ptr<Camera>> get_cameras();
+    std::shared_ptr<Composite> get_composite();
 
-    ~Scene() override = default;
+    ~Scene() = default;
 
 protected:
     shared_ptr<Composite> models;
     vector<shared_ptr<Camera>> cameras;
 
 private:
-    void accept(shared_ptr<Visitor> visitor) override;
-    void transform(const Vertex &move, const Vertex &scale, const Vertex &turn) override;
+    void accept(shared_ptr<Visitor> visitor);
+    void transform(const Vertex &move, const Vertex &scale, const Vertex &turn);
 };
 
 

@@ -1,7 +1,7 @@
 #include "draw_manager_creator.h"
 
 
-shared_ptr<DrawManager> DrawManagerCreator::create_manager()
+shared_ptr<DrawManager> DrawManagerCreator::get_manager()
 {
     if (manager == nullptr)
     {

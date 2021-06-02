@@ -4,16 +4,21 @@
 
 #include "../base_manager.h"
 #include "./objects/base_object.h"
+#include "./secretary/load_secretary.h"
 
 
 class LoadManager: public BaseManager
 {
+public:
     LoadManager();
 
     virtual shared_ptr<BaseObject> load(string &filename);
-    virtual void set_loader()
+    virtual void set_loader(shared_ptr<LoadSecretary> loader);
 
     ~LoadManager() = default;
+
+private:
+    shared_ptr<LoadSecretary> loader;
 };
 
 #endif

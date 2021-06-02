@@ -1,7 +1,7 @@
 #include "scene_manager_creator.h"
 
 
-shared_ptr<SceneManager> SceneManagerCreator::create_manager()
+shared_ptr<SceneManager> SceneManagerCreator::get_manager()
 {
     if (manager == nullptr)
     {

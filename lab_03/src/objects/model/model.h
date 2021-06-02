@@ -10,7 +10,7 @@
 
 using namespace std;
 
-/*
+
 class Model: public BaseObject
 {
 public:
@@ -27,19 +27,6 @@ public:
 private:
     shared_ptr<Elements> elements;
 };
-*/
 
-
-class Model : public BaseObject
-{
-public:
-    Model() = default;
-    ~Model() = default;
-    virtual void transform(const Vertex &move, const Vertex &scale, const Vertex &turn) override;
-    // virtual bool isVisible() override;
-    virtual void accept(shared_ptr<Visitor> visitor) override;
-private:
-    shared_ptr<Elements> elements;
-};
 
 #endif

@@ -11,10 +11,7 @@
 using namespace std;
 
 
-class SceneBaseCommand: public BaseCommand {};
-
-
-class DrawScene: public SceneBaseCommand
+class DrawScene: public BaseCommand
 {
 public:
     DrawScene() = delete;
@@ -28,7 +25,7 @@ private:
 };
 
 
-class LoadScene: public SceneBaseCommand
+class LoadScene: public BaseCommand
 {
 public:
     LoadScene() = delete;

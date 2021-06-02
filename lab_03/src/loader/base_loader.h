@@ -8,9 +8,10 @@ using namespace std;
 
 class BaseLoader
 {
+public:
     BaseLoader() = default;
 
-    virtual void open(string filename);
+    virtual void open(string &filename);
     virtual void close() = 0;
 
     virtual ~BaseLoader() = default;

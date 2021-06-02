@@ -41,3 +41,8 @@ vector<shared_ptr<Camera>> Scene::get_cameras()
 {
     return cameras;
 }
+
+
+shared_ptr<Composite> Scene::get_composite() {
+    return models;
+}

@@ -6,10 +6,7 @@ Camera::Camera(const Vertex &position): position(position) {};
 
 void Camera::accept(shared_ptr<Visitor> visitor)
 {
-    //visitor->visit(*this);
-    Camera tmp = *this;
-    Model tmp_model;
-    visitor->visit(tmp_model);
+    visitor->visit(*this);
 }
 
 
