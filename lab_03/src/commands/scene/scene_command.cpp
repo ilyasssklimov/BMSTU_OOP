@@ -2,6 +2,8 @@
 #include "managers/draw/draw_manager_creator.h"
 #include "managers/scene/scene_manager_creator.h"
 #include "solution/scene/scene_secretary.h"
+#include "solution/scene/scene_solution.h"
+#include "managers/load/load_manager_creator.h"
 
 
 DrawScene::DrawScene(std::shared_ptr<BaseDraw> drawer) : drawer(drawer) {};
@@ -24,10 +26,10 @@ LoadScene::LoadScene(string filename) : filename(filename) {};
 
 void LoadScene::execute()
 {
-    auto secretary = SceneSolution().create_controller();
+    auto loader = SceneSolution().get_scene_loader();
 
-    auto manager = Load::LoadManagerCreator().create_manager(controller);
+    auto manager = LoadManagerCreator().get_manager(loader);
 
-    auto scene = std::dynamic_pointer_cast<Scene>(manager->load(_fname));
-    SceneManagerCreator().create_manager()->set_scene(scene);
+    auto scene = std::dynamic_pointer_cast<Scene>(manager->load(filename));
+    SceneManagerCreator().get_manager()->set_scene(scene);
 }

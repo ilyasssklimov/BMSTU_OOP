@@ -4,7 +4,7 @@
 
 #include "../base_manager.h"
 #include "./objects/base_object.h"
-#include "./secretary/load_secretary.h"
+#include "./solution/load_secretary.h"
 
 
 class LoadManager: public BaseManager

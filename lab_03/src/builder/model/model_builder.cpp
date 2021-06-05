@@ -41,6 +41,6 @@ void ModelBuilder::build_edge(const size_t v1, const size_t v2)
 
 shared_ptr<BaseObject> ModelBuilder::get()
 {
-    return make_shared<BaseObject>(Model(elements));
+    // return make_shared<BaseObject>(Model(elements));
 }
 

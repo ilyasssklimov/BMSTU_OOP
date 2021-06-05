@@ -108,6 +108,7 @@ void MainWindow::on_load_button_clicked()
     }
 
     update_scene();
+
     ui->model_choose->addItem(QFileInfo(t.toUtf8().data()).fileName());
     ui->model_choose->setCurrentIndex(ui->model_choose->count() - 1);
 }

@@ -1,4 +1,5 @@
 #include "camera_builder.h"
+#include "./objects/camera/camera.h"
 
 
 bool CameraBuilder::is_build() const
@@ -18,7 +19,8 @@ void CameraBuilder::build_position(double x, double y, double z)
 
 }
 
-std::shared_ptr<BaseObject> CameraBuilder::get()
+
+shared_ptr<BaseObject> CameraBuilder::get()
 {
     // return camera;
 }

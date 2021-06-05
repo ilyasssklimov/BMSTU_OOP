@@ -157,8 +157,6 @@ HEADERS += \
     visitor/visitor.h
 
 FORMS += \
-    interface/mainwindow.ui \
-    mainwindow.ui \
     mainwindow.ui
 
 # Default rules for deployment.
