@@ -27,7 +27,7 @@ public slots:
 
 private:
     enum state { MOVE, WAIT, STOP };
-    state current_state;
+    state state;
 
     int cur_floor;
     int cur_aim;

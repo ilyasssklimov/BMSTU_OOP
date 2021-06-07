@@ -6,14 +6,13 @@ Door::Door(QObject *parent) : QObject(parent), cur_state(CLOSED)
 {
   doors_stay_open_timer.setInterval(WAITING_TIME);
   doors_stay_open_timer.setSingleShot(true);
-
   doors_open_timer.setSingleShot(true);
   doors_close_timer.setSingleShot(true);
 
-  QObject::connect(&doors_open_timer, SIGNAL(timeout()), this, SLOT(open()));
-  QObject::connect(&doors_close_timer, SIGNAL(timeout()), this, SLOT(close()));
-  QObject::connect(this, SIGNAL(opened_doors()), &doors_stay_open_timer, SLOT(start()));
+  QObject::connect(&doors_open_timer, SIGNAL(timeout()), this, SLOT(opened()));
+  QObject::connect(&doors_close_timer, SIGNAL(timeout()), this, SLOT(closed()));
   QObject::connect(&doors_stay_open_timer, SIGNAL(timeout()), this, SLOT(start_closing()));
+  QObject::connect(this, SIGNAL(opened_doors()), &doors_stay_open_timer, SLOT(start()));
 }
 
 
@@ -36,13 +35,9 @@ void Door::start_openning()
 }
 
 
+// Done
 void Door::start_closing()
 {
-    /*
-    if (cur_state == CLOSED)
-        closed_doors();
-    else
-    */
     if (cur_state == OPENED)
     {
         cur_state = CLOSING;
@@ -52,22 +47,23 @@ void Door::start_closing()
 }
 
 
-void Door::open()
+void Door::opened()
 {
     if (cur_state == OPENNING)
     {
         cur_state = OPENED;
         qDebug() << "Двери открылись, ожидаю пассажиров";
-        opened_doors();
+        emit opened_doors();
     }
 }
 
 
-void Door::close() {
+void Door::closed()
+{
     if (cur_state == CLOSING)
     {
         cur_state = CLOSED;
         qDebug() << "Двери закрылись :(";
-        closed_doors();
+        emit closed_doors();
     }
 }

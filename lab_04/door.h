@@ -20,12 +20,12 @@ public slots:
     void start_closing();
 
 private slots:
-    void open();
-    void close();
+    void opened();
+    void closed();
 
 private:
-    enum doors_state { OPENNING, OPENED, CLOSING, CLOSED };
-    doors_state cur_state;
+    enum state { OPENNING, OPENED, CLOSING, CLOSED };
+    state cur_state;
 
     QTimer doors_open_timer;
     QTimer doors_close_timer;

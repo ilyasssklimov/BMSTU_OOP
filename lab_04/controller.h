@@ -15,17 +15,24 @@ public:
 signals:
     void set_aim(int floor, direction dir);
 
+    void achived_aim();
+    void new_aim();
+
 public slots:
-    void achieved_floor(int floor);
+    void achieved_aim(int floor);
     void passed_floor(int floor);
+
+    void busy(int floor, direction &dir);
+    void free(int floor);
 
 private:
     enum state { FREE, BUSY };
+    state cur_state;
+
     int cur_floor;
     int cur_aim;
 
     QVector<bool> is_aim;
-    state cur_state;
     direction cur_direction;
 
     bool nearest_floor(int &floor);

@@ -3,7 +3,7 @@
 
 
 Cabin::Cabin(QObject *parent):
-    QObject(parent), current_state(STOP), cur_floor(1), cur_aim(-1), new_aim(false), cur_direction(STAY)
+    QObject(parent), state(STOP), cur_floor(1), cur_aim(-1), new_aim(false), cur_direction(STAY)
 {
   crossing_floor_timer.setSingleShot(true);
 
@@ -17,23 +17,23 @@ Cabin::Cabin(QObject *parent):
 
 void Cabin::cabin_move()
 {
-    if (new_aim && current_state == WAIT)
+    if (new_aim && state == WAIT)
     {
-        current_state = MOVE;
+        state = MOVE;
         if (cur_floor == cur_aim)
-            cabin_reached_aim(cur_floor);
+            emit cabin_reached_aim(cur_floor);
         else
             crossing_floor_timer.start(CROSSING_FLOOR);
     }
-    else if (current_state == MOVE)
+    else if (state == MOVE)
     {
         cur_floor += cur_direction;
 
         if (cur_floor == cur_aim)
-            cabin_reached_aim(cur_floor);
+            emit cabin_reached_aim(cur_floor);
         else
         {
-            cabin_crossing_floor(cur_floor, cur_direction);
+            emit cabin_crossing_floor(cur_floor, cur_direction);
             crossing_floor_timer.start(CROSSING_FLOOR);
         }
     }
@@ -42,23 +42,23 @@ void Cabin::cabin_move()
 
 void Cabin::cabin_stopping()
 {
-    if (current_state == MOVE)
+    if (state == MOVE)
     {
-        current_state = STOP;
+        state = STOP;
         qDebug() << "Приехали на" << cur_floor << "этаж";
-        cabin_stopped(cur_floor);
+        emit cabin_stopped(cur_floor);
     }
 }
 
 
 void Cabin::cabin_call(int floor, direction direction)
 {
-    if (current_state == STOP)
+    if (state == STOP)
     {
         cur_aim = floor;
         new_aim = true;
-        current_state = WAIT;
+        state = WAIT;
         cur_direction = direction;
-        cabin_called();
+        emit cabin_called();
     }
 }

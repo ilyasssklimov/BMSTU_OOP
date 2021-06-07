@@ -1,0 +1,4 @@
+#ifndef SOLUTION_MANAGER_H
+#define SOLUTION_MANAGER_H
+
+#endif // SOLUTION_MANAGER_H

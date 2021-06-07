@@ -2,8 +2,8 @@
 #include <QDebug>
 
 
-Controller::Controller(QObject *parent): QObject(parent), cur_floor(1), cur_aim(-1),
-    is_aim(FLOORS, false), cur_state(FREE), cur_direction(STAY) {}
+Controller::Controller(QObject *parent): QObject(parent), cur_state(FREE), cur_floor(1),
+    cur_aim(-1), is_aim(FLOORS, false), cur_direction(STAY) {}
 
 
 void Controller::set_new_aim(int floor)
@@ -20,11 +20,11 @@ void Controller::set_new_aim(int floor)
     else
         cur_direction = UP;
 
-    set_aim(floor, cur_direction);
+    emit set_aim(floor, cur_direction);
 }
 
 
-void Controller::achieved_floor(int floor)
+void Controller::achieved_aim(int floor)
 {
     if (cur_state == BUSY)
     {
@@ -44,7 +44,7 @@ void Controller::achieved_floor(int floor)
             else
                 cur_direction = UP;
 
-            set_aim(floor, cur_direction);
+            emit set_aim(floor, cur_direction);
         }
         else
             cur_state = FREE;
