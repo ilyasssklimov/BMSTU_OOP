@@ -154,6 +154,7 @@
 #define __GXX_ABI_VERSION 1014
 #define __FLT128_HAS_INFINITY__ 1
 #define __FLT_MIN_EXP__ (-125)
+#define __GCC_HAVE_DWARF2_CFI_ASM 1
 #define __x86_64 1
 #define __cpp_lambdas 200907L
 #define __INT_FAST64_TYPE__ long long int
@@ -182,7 +183,7 @@
 #define __DEC128_MAX__ 9.999999999999999999999999999999999E6144DL
 #define __FLT_MANT_DIG__ 24
 #define __LDBL_DECIMAL_DIG__ 21
-#define __VERSION__ "10.3.0"
+#define __VERSION__ "10.2.0"
 #define __UINT64_C(c) c ## ULL
 #define __cpp_unicode_characters 200704L
 #define _WIN32 1
@@ -364,7 +365,7 @@
 #define __DEC128_MAX_EXP__ 6145
 #define __FLT32X_HAS_QUIET_NAN__ 1
 #define __ATOMIC_CONSUME 1
-#define __GNUC_MINOR__ 3
+#define __GNUC_MINOR__ 2
 #define __GLIBCXX_TYPE_INT_N_0 __int128
 #define __INT_FAST16_WIDTH__ 16
 #define __UINTMAX_MAX__ 0xffffffffffffffffULL
