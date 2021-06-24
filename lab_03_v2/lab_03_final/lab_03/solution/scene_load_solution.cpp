@@ -12,7 +12,7 @@ std::shared_ptr<SceneLoaderCreator> SceneLoadSolution::get_creator()
         throw FileError(message);
     }
 
-    size_t id;
+    int id;
     if (!(file >> id))
     {
         std::string message = "Error in getting scene from config file";

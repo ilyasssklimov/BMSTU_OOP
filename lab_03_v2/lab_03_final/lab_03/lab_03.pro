@@ -107,5 +107,4 @@ DISTFILES += \
     data/model_load.cfg \
     data/scene_load.cfg \
     lab_3.mdj \
-    pyra.txt \
     Схема.PNG

@@ -21,17 +21,17 @@ SolutionManager::SolutionManager()
 }
 
 
-std::shared_ptr<LoaderCreator> SolutionManager::get_creator(size_t index)
+std::shared_ptr<LoaderCreator> SolutionManager::get_creator(int index)
 {
     return _solution.get_creator(index);
 }
 
-std::shared_ptr<SceneLoaderCreator> SolutionManager::get_scene_creator(size_t index)
+std::shared_ptr<SceneLoaderCreator> SolutionManager::get_scene_creator(int index)
 {
     return _solution.get_scene_creator(index);
 }
 
-std::shared_ptr<AbstractFactory> SolutionManager::get_factory(size_t index)
+std::shared_ptr<AbstractFactory> SolutionManager::get_factory(int index)
 {
     return _solution.get_factory(index);
 }

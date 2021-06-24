@@ -12,7 +12,7 @@ std::shared_ptr<LoaderCreator> ModelLoadSolution::get_creator()
         throw FileError(message);
     }
 
-    size_t id;
+    int id;
     if (!(file >> id))
     {
         std::string message = "Error in getting model from config file";

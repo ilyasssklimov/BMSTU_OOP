@@ -15,8 +15,8 @@ void Point::reform(const std::shared_ptr<Matrix<double>> mtr)
 {
     vector<double> result(4, 0);
     vector<double> data = {x, y, z, 1.0};
-    for (size_t i = 0; i < 4; i++)
-        for (size_t j = 0; j < 4; j++)
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
             result[i] += data[j] * (*mtr)[i][j];
 
     set_x(result[0]);

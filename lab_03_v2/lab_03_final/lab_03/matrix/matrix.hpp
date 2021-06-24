@@ -10,11 +10,11 @@ public:
     typedef typename MatrixBase<T>::iterator iterator;
     typedef typename MatrixBase<T>::const_iterator const_iterator;
 
-    explicit Matrix(size_t, size_t);
-    explicit Matrix(size_t, size_t, const T &);
-    Matrix(size_t, size_t, iterator, iterator);
-    Matrix(size_t, size_t, const_iterator, const_iterator);
-    Matrix(size_t, size_t, std::initializer_list<T>);
+    explicit Matrix(int, int);
+    explicit Matrix(int, int, const T &);
+    Matrix(int, int, iterator, iterator);
+    Matrix(int, int, const_iterator, const_iterator);
+    Matrix(int, int, std::initializer_list<T>);
     Matrix(const Matrix &);
     Matrix(Matrix &&);
     virtual ~Matrix() = default;
@@ -46,31 +46,31 @@ public:
 };
 
 template <class T>
-Matrix<T>::Matrix(size_t row_count, size_t col_count)
+Matrix<T>::Matrix(int row_count, int col_count)
     : MatrixBase<T>(row_count, col_count)
 {
 }
 
 template <class T>
-Matrix<T>::Matrix(size_t row_count, size_t col_count, const T &value)
+Matrix<T>::Matrix(int row_count, int col_count, const T &value)
     : MatrixBase<T>(row_count, col_count, value)
 {
 }
 
 template <class T>
-Matrix<T>::Matrix(size_t row_count, size_t col_count, iterator first, iterator last)
+Matrix<T>::Matrix(int row_count, int col_count, iterator first, iterator last)
     : MatrixBase<T>(row_count, col_count, first, last)
 {
 }
 
 template <class T>
-Matrix<T>::Matrix(size_t row_count, size_t col_count, const_iterator first, const_iterator last)
+Matrix<T>::Matrix(int row_count, int col_count, const_iterator first, const_iterator last)
     : MatrixBase<T>(row_count, col_count, first, last)
 {
 }
 
 template <class T>
-Matrix<T>::Matrix(size_t row_count, size_t col_count, std::initializer_list<T> lst)
+Matrix<T>::Matrix(int row_count, int col_count, std::initializer_list<T> lst)
     : MatrixBase<T>(row_count, col_count, lst)
 {
 }
@@ -115,12 +115,12 @@ template <class T>
 Matrix<T> operator+(const Matrix<T> &lhs, const Matrix<T> &rhs)
 {
     Matrix<T> result = lhs;
-    size_t rows_count = lhs.rows() < rhs.rows() ? lhs.rows() : rhs.rows();
-    size_t cols_count = lhs.columns() < rhs.columns() ? lhs.columns() : rhs.columns();
+    int rows_count = lhs.rows() < rhs.rows() ? lhs.rows() : rhs.rows();
+    int cols_count = lhs.columns() < rhs.columns() ? lhs.columns() : rhs.columns();
 
-    for (size_t i = 0; i < rows_count; ++i)
+    for (int i = 0; i < rows_count; ++i)
     {
-        for (size_t j = 0; j < cols_count; ++j)
+        for (int j = 0; j < cols_count; ++j)
         {
             result[i][j] += rhs[i][j];
         }
@@ -134,7 +134,7 @@ Matrix<T> operator+(const Matrix<T> &mtx, const T &value)
 {
     Matrix<T> result = mtx;
 
-    for (size_t i = 0; i < mtx.capacity(); ++i)
+    for (int i = 0; i < mtx.capacity(); ++i)
     {
         result._data[i] += value;
     }
@@ -145,12 +145,12 @@ Matrix<T> operator+(const Matrix<T> &mtx, const T &value)
 template <class T>
 Matrix<T> &Matrix<T>::operator+=(const Matrix<T> &rhs)
 {
-    size_t rows_count = this->rows() < rhs.rows() ? this->rows() : rhs.rows();
-    size_t cols_count = this->columns() < rhs.columns() ? this->columns() : rhs.columns();
+    int rows_count = this->rows() < rhs.rows() ? this->rows() : rhs.rows();
+    int cols_count = this->columns() < rhs.columns() ? this->columns() : rhs.columns();
 
-    for (size_t i = 0; i < rows_count; ++i)
+    for (int i = 0; i < rows_count; ++i)
     {
-        for (size_t j = 0; j < cols_count; ++j)
+        for (int j = 0; j < cols_count; ++j)
         {
             (*this)[i][j] += rhs[i][j];
         }
@@ -162,7 +162,7 @@ Matrix<T> &Matrix<T>::operator+=(const Matrix<T> &rhs)
 template <class T>
 Matrix<T> &Matrix<T>::operator+=(const T &value)
 {
-    for (size_t i = 0; i < this->capacity(); ++i)
+    for (int i = 0; i < this->capacity(); ++i)
     {
         this->_data[i] += value;
     }
@@ -174,12 +174,12 @@ template <class T>
 Matrix<T> operator-(const Matrix<T> &lhs, const Matrix<T> &rhs)
 {
     Matrix<T> result = lhs;
-    size_t rows_count = lhs.rows() < rhs.rows() ? lhs.rows() : rhs.rows();
-    size_t cols_count = lhs.columns() < rhs.columns() ? lhs.columns() : rhs.columns();
+    int rows_count = lhs.rows() < rhs.rows() ? lhs.rows() : rhs.rows();
+    int cols_count = lhs.columns() < rhs.columns() ? lhs.columns() : rhs.columns();
 
-    for (size_t i = 0; i < rows_count; ++i)
+    for (int i = 0; i < rows_count; ++i)
     {
-        for (size_t j = 0; j < cols_count; ++j)
+        for (int j = 0; j < cols_count; ++j)
         {
             result[i][j] -= rhs[i][j];
         }
@@ -193,7 +193,7 @@ Matrix<T> operator-(const Matrix<T> &mtx, const T &value)
 {
     Matrix<T> result = mtx;
 
-    for (size_t i = 0; i < mtx.capacity(); ++i)
+    for (int i = 0; i < mtx.capacity(); ++i)
     {
         result._data[i] -= value;
     }
@@ -204,12 +204,12 @@ Matrix<T> operator-(const Matrix<T> &mtx, const T &value)
 template <class T>
 Matrix<T> &Matrix<T>::operator-=(const Matrix<T> &rhs)
 {
-    size_t rows_count = this->rows() < rhs.rows() ? this->rows() : rhs.rows();
-    size_t cols_count = this->columns() < rhs.columns() ? this->columns() : rhs.columns();
+    int rows_count = this->rows() < rhs.rows() ? this->rows() : rhs.rows();
+    int cols_count = this->columns() < rhs.columns() ? this->columns() : rhs.columns();
 
-    for (size_t i = 0; i < rows_count; ++i)
+    for (int i = 0; i < rows_count; ++i)
     {
-        for (size_t j = 0; j < cols_count; ++j)
+        for (int j = 0; j < cols_count; ++j)
         {
             (*this)[i][j] -= rhs[i][j];
         }
@@ -221,7 +221,7 @@ Matrix<T> &Matrix<T>::operator-=(const Matrix<T> &rhs)
 template <class T>
 Matrix<T> &Matrix<T>::operator-=(const T &value)
 {
-    for (size_t i = 0; i < this->capacity(); ++i)
+    for (int i = 0; i < this->capacity(); ++i)
     {
         this->_data[i] -= value;
     }
@@ -236,11 +236,11 @@ Matrix<T> operator*(const Matrix<T> &lhs, const Matrix<T> &rhs)
     {
         Matrix<T> result = lhs;
 
-        for (size_t i = 0; i < lhs.rows(); ++i)
+        for (int i = 0; i < lhs.rows(); ++i)
         {
-            for (size_t j = 0; j < rhs.columns(); ++j)
+            for (int j = 0; j < rhs.columns(); ++j)
             {
-                for (size_t k = 0; k < lhs.columns(); ++k)
+                for (int k = 0; k < lhs.columns(); ++k)
                 {
                     result[i][j] += lhs[i][k] * rhs[k][j];
                 }
@@ -261,7 +261,7 @@ Matrix<T> &operator*(const Matrix<T> &mtx, const T &value)
 {
     Matrix<T> result = mtx;
 
-    for (size_t i = 0; i < mtx.capacity(); ++i)
+    for (int i = 0; i < mtx.capacity(); ++i)
     {
         result._data[i] *= value;
     }
@@ -274,11 +274,11 @@ Matrix<T> &Matrix<T>::operator*=(const Matrix<T> &rhs)
 {
     if (this->columns() == rhs.rows())
     {
-        for (size_t i = 0; i < this->rows(); ++i)
+        for (int i = 0; i < this->rows(); ++i)
         {
-            for (size_t j = 0; j < rhs.columns(); ++j)
+            for (int j = 0; j < rhs.columns(); ++j)
             {
-                for (size_t k = 0; k < this->columns(); ++k)
+                for (int k = 0; k < this->columns(); ++k)
                 {
                     (*this)[i][j] = (*this)[i][k] * rhs[k][j];
                 }
@@ -297,7 +297,7 @@ Matrix<T> &Matrix<T>::operator*=(const Matrix<T> &rhs)
 template <class T>
 Matrix<T> &Matrix<T>::operator*=(const T &value)
 {
-    for (size_t i = 0; i < this->capacity(); ++i)
+    for (int i = 0; i < this->capacity(); ++i)
     {
         this->_data[i] *= value;
     }
@@ -310,7 +310,7 @@ Matrix<T> &operator/(const Matrix<T> &mtx, const T &value)
 {
     Matrix<T> result = mtx;
 
-    for (size_t i = 0; i < mtx.capacity(); ++i)
+    for (int i = 0; i < mtx.capacity(); ++i)
     {
         result._data[i] /= value;
     }
@@ -321,7 +321,7 @@ Matrix<T> &operator/(const Matrix<T> &mtx, const T &value)
 template <class T>
 Matrix<T> &Matrix<T>::operator/=(const T &value)
 {
-    for (size_t i = 0; i < this->capacity(); ++i)
+    for (int i = 0; i < this->capacity(); ++i)
     {
         this->_data[i] /= value;
     }

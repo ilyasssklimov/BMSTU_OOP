@@ -14,9 +14,9 @@ class SolutionManager : public BaseManager
 public:
     SolutionManager();
 
-    shared_ptr<LoaderCreator> get_creator(size_t index);
-    shared_ptr<SceneLoaderCreator> get_scene_creator(size_t index);
-    shared_ptr<AbstractFactory> get_factory(size_t index);
+    shared_ptr<LoaderCreator> get_creator(int index);
+    shared_ptr<SceneLoaderCreator> get_scene_creator(int index);
+    shared_ptr<AbstractFactory> get_factory(int index);
 
 private:
     Solution _solution;

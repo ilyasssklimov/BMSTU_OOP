@@ -14,15 +14,15 @@ class MatrixBase
     class Proxy
     {
     public:
-        Proxy(size_t, T *);
+        Proxy(int, T *);
 
-        T &at(size_t);
-        const T &at(size_t) const;
-        T &operator[](size_t);
-        const T &operator[](size_t) const;
+        T &at(int);
+        const T &at(int) const;
+        T &operator[](int);
+        const T &operator[](int) const;
 
     private:
-        size_t col_count;
+        int col_count;
         T *data;
     };
 
@@ -30,11 +30,11 @@ public:
     typedef typename std::vector<T>::iterator iterator;
     typedef typename std::vector<T>::const_iterator const_iterator;
 
-    explicit MatrixBase(size_t, size_t);
-    explicit MatrixBase(size_t, size_t, const T &);
-    MatrixBase(size_t, size_t, iterator, iterator);
-    MatrixBase(size_t, size_t, const_iterator, const_iterator);
-    MatrixBase(size_t, size_t, std::initializer_list<T>);
+    explicit MatrixBase(int, int);
+    explicit MatrixBase(int, int, const T &);
+    MatrixBase(int, int, iterator, iterator);
+    MatrixBase(int, int, const_iterator, const_iterator);
+    MatrixBase(int, int, std::initializer_list<T>);
     MatrixBase(const MatrixBase &);
     MatrixBase(MatrixBase &&);
     virtual ~MatrixBase();
@@ -42,10 +42,10 @@ public:
     MatrixBase &operator=(MatrixBase &&);
     MatrixBase &operator=(std::initializer_list<T>);
 
-    Proxy at(size_t);
-    const Proxy at(size_t) const;
-    Proxy operator[](size_t);
-    const Proxy operator[](size_t) const;
+    Proxy at(int);
+    const Proxy at(int) const;
+    Proxy operator[](int);
+    const Proxy operator[](int) const;
 
     iterator begin();
     const_iterator cbegin() const;
@@ -57,9 +57,9 @@ public:
     iterator rend();
     const_iterator rcend() const;
 
-    size_t rows() const;
-    size_t columns() const;
-    size_t capacity() const;
+    int rows() const;
+    int columns() const;
+    int capacity() const;
     void zero();
     void swap(MatrixBase &);
 
@@ -83,33 +83,19 @@ public:
     friend inline std::ostream &operator<<(std::ostream &, const MatrixBase<U> &);
 
 protected:
-    size_t row_count;
-    size_t col_count;
-    size_t memory_dump;
+    int row_count;
+    int col_count;
+    int memory_dump;
     T *_data;
 };
 
 template <class T>
-MatrixBase<T>::Proxy::Proxy(size_t col_count, T *data) : col_count(col_count), data(data)
+MatrixBase<T>::Proxy::Proxy(int col_count, T *data) : col_count(col_count), data(data)
 {
 }
 
 template <class T>
-T &MatrixBase<T>::Proxy::at(size_t index)
-{
-    if (index < this->col_count)
-    {
-        return *(this->data + index);
-    }
-    else
-    {
-        std::string message = "Error in Matrix operator at";
-        throw RangeError(message);
-    }
-}
-
-template <class T>
-const T &MatrixBase<T>::Proxy::at(size_t index) const
+T &MatrixBase<T>::Proxy::at(int index)
 {
     if (index < this->col_count)
     {
@@ -123,7 +109,21 @@ const T &MatrixBase<T>::Proxy::at(size_t index) const
 }
 
 template <class T>
-T &MatrixBase<T>::Proxy::operator[](size_t index)
+const T &MatrixBase<T>::Proxy::at(int index) const
+{
+    if (index < this->col_count)
+    {
+        return *(this->data + index);
+    }
+    else
+    {
+        std::string message = "Error in Matrix operator at";
+        throw RangeError(message);
+    }
+}
+
+template <class T>
+T &MatrixBase<T>::Proxy::operator[](int index)
 {
     if (index < this->col_count)
     {
@@ -137,7 +137,7 @@ T &MatrixBase<T>::Proxy::operator[](size_t index)
 }
 
 template <class T>
-const T &MatrixBase<T>::Proxy::operator[](size_t index) const
+const T &MatrixBase<T>::Proxy::operator[](int index) const
 {
     if (index < this->col_count)
     {
@@ -151,7 +151,7 @@ const T &MatrixBase<T>::Proxy::operator[](size_t index) const
 }
 
 template <class T>
-MatrixBase<T>::MatrixBase(size_t row_count, size_t col_count)
+MatrixBase<T>::MatrixBase(int row_count, int col_count)
     : row_count(row_count), col_count(col_count), memory_dump(row_count * col_count)
 {
     try
@@ -166,62 +166,62 @@ MatrixBase<T>::MatrixBase(size_t row_count, size_t col_count)
 }
 
 template <class T>
-MatrixBase<T>::MatrixBase(size_t row_count, size_t col_count, const T &value)
+MatrixBase<T>::MatrixBase(int row_count, int col_count, const T &value)
     : MatrixBase(row_count, col_count)
 {
-    for (size_t i = 0; i < this->memory_dump; ++i)
+    for (int i = 0; i < this->memory_dump; ++i)
     {
         this->_data[i] = value;
     }
 }
 
 template <class T>
-MatrixBase<T>::MatrixBase(size_t row_count, size_t col_count, iterator first, iterator last)
+MatrixBase<T>::MatrixBase(int row_count, int col_count, iterator first, iterator last)
     : MatrixBase(row_count, col_count)
 {
-    size_t size = this->memory_dump <= static_cast<size_t>(last - first) ? this->memory_dump : static_cast<size_t>(last - first);
+    int size = this->memory_dump <= static_cast<int>(last - first) ? this->memory_dump : static_cast<int>(last - first);
 
-    for (size_t i = 0; i < size; ++i, ++first)
+    for (int i = 0; i < size; ++i, ++first)
     {
         this->_data[i] = *first;
     }
 
-    for (size_t i = size; i < this->memory_dump; ++i)
+    for (int i = size; i < this->memory_dump; ++i)
     {
         this->_data[i] = 0;
     }
 }
 
 template <class T>
-MatrixBase<T>::MatrixBase(size_t row_count, size_t col_count, const_iterator first, const_iterator last)
+MatrixBase<T>::MatrixBase(int row_count, int col_count, const_iterator first, const_iterator last)
     : MatrixBase(row_count, col_count)
 {
-    size_t size = this->memory_dump <= static_cast<size_t>(last - first) ? this->memory_dump : static_cast<size_t>(last - first);
+    int size = this->memory_dump <= static_cast<int>(last - first) ? this->memory_dump : static_cast<int>(last - first);
 
-    for (size_t i = 0; i < size; ++i, ++first)
+    for (int i = 0; i < size; ++i, ++first)
     {
         this->_data[i] = *first;
     }
 
-    for (size_t i = size; i < this->memory_dump; ++i)
+    for (int i = size; i < this->memory_dump; ++i)
     {
         this->_data[i] = 0;
     }
 }
 
 template <class T>
-MatrixBase<T>::MatrixBase(size_t row_count, size_t col_count, std::initializer_list<T> lst)
+MatrixBase<T>::MatrixBase(int row_count, int col_count, std::initializer_list<T> lst)
     : MatrixBase(row_count, col_count)
 {
-    size_t size = this->memory_dump <= lst.size() ? this->memory_dump : lst.size();
+    int size = this->memory_dump <= lst.size() ? this->memory_dump : lst.size();
     typename std::initializer_list<T>::iterator iter = lst.begin();
 
-    for (size_t i = 0; i < size; ++i, ++iter)
+    for (int i = 0; i < size; ++i, ++iter)
     {
         this->_data[i] = *iter;
     }
 
-    for (size_t i = size; i < this->memory_dump; ++i)
+    for (int i = size; i < this->memory_dump; ++i)
     {
         this->_data[i] = 0;
     }
@@ -304,15 +304,15 @@ MatrixBase<T> &MatrixBase<T>::operator=(MatrixBase &&other)
 template <class T>
 MatrixBase<T> &MatrixBase<T>::operator=(std::initializer_list<T> lst)
 {
-    size_t size = this->memory_dump <= lst.size() ? this->memory_dump : lst.size();
+    int size = this->memory_dump <= lst.size() ? this->memory_dump : lst.size();
     typename std::initializer_list<T>::const_iterator iter = lst.begin();
 
-    for (size_t i = 0; i < size; ++i, ++iter)
+    for (int i = 0; i < size; ++i, ++iter)
     {
         this->_data[i] = *iter;
     }
 
-    for (size_t i = size; i < this->memory_dump; ++i)
+    for (int i = size; i < this->memory_dump; ++i)
     {
         this->_data[i] = 0;
     }
@@ -321,7 +321,7 @@ MatrixBase<T> &MatrixBase<T>::operator=(std::initializer_list<T> lst)
 }
 
 template <class T>
-typename MatrixBase<T>::Proxy MatrixBase<T>::at(size_t index)
+typename MatrixBase<T>::Proxy MatrixBase<T>::at(int index)
 {
     if (index < this->row_count)
     {
@@ -335,7 +335,7 @@ typename MatrixBase<T>::Proxy MatrixBase<T>::at(size_t index)
 }
 
 template <class T>
-const typename MatrixBase<T>::Proxy MatrixBase<T>::at(size_t index) const
+const typename MatrixBase<T>::Proxy MatrixBase<T>::at(int index) const
 {
     if (index < this->row_count)
     {
@@ -349,7 +349,7 @@ const typename MatrixBase<T>::Proxy MatrixBase<T>::at(size_t index) const
 }
 
 template <class T>
-typename MatrixBase<T>::Proxy MatrixBase<T>::operator[](size_t index)
+typename MatrixBase<T>::Proxy MatrixBase<T>::operator[](int index)
 {
     if (index < this->row_count)
     {
@@ -363,7 +363,7 @@ typename MatrixBase<T>::Proxy MatrixBase<T>::operator[](size_t index)
 }
 
 template <class T>
-const typename MatrixBase<T>::Proxy MatrixBase<T>::operator[](size_t index) const
+const typename MatrixBase<T>::Proxy MatrixBase<T>::operator[](int index) const
 {
     if (index < this->row_count)
     {
@@ -425,19 +425,19 @@ typename MatrixBase<T>::const_iterator MatrixBase<T>::rcend() const
 }
 
 template <class T>
-size_t MatrixBase<T>::rows() const
+int MatrixBase<T>::rows() const
 {
     return this->row_count;
 }
 
 template <class T>
-size_t MatrixBase<T>::columns() const
+int MatrixBase<T>::columns() const
 {
     return this->col_count;
 }
 
 template <class T>
-size_t MatrixBase<T>::capacity() const
+int MatrixBase<T>::capacity() const
 {
     return this->memory_dump;
 }
@@ -445,7 +445,7 @@ size_t MatrixBase<T>::capacity() const
 template <class T>
 void MatrixBase<T>::zero()
 {
-    for (size_t i = 0; i < this->memory_dump; ++i)
+    for (int i = 0; i < this->memory_dump; ++i)
     {
         this->_data[i] = T();
     }
@@ -473,7 +473,7 @@ bool operator==(const MatrixBase<T> &lhs, const MatrixBase<T> &rhs)
 
     if (are_equal)
     {
-        for (size_t i = 0; i < lhs.size() && are_equal; ++i)
+        for (int i = 0; i < lhs.size() && are_equal; ++i)
         {
             if (lhs[i] != rhs[i])
             {
@@ -498,7 +498,7 @@ bool operator<(const MatrixBase<T> &lhs, const MatrixBase<T> &rhs)
 
     if (!is_less && lhs.size() == rhs.size())
     {
-        for (size_t i = 0; i < lhs.size() && !is_less; ++i)
+        for (int i = 0; i < lhs.size() && !is_less; ++i)
         {
             if (lhs[i] < rhs[i])
             {
@@ -531,9 +531,9 @@ bool operator>=(const MatrixBase<T> &lhs, const MatrixBase<T> &rhs)
 template <class T>
 std::ostream &operator<<(std::ostream &stream, const MatrixBase<T> &mtx)
 {
-    for (size_t i = 0; i < mtx.rows(); ++i)
+    for (int i = 0; i < mtx.rows(); ++i)
     {
-        for (size_t j = 0; j < mtx.columns(); ++j)
+        for (int j = 0; j < mtx.columns(); ++j)
         {
             stream << mtx[i][j] << " ";
         }

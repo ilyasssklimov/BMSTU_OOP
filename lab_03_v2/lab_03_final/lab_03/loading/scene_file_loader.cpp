@@ -48,13 +48,13 @@ void SceneFileLoader::close()
 
 void SceneFileLoader::load_models()
 {
-    size_t models_count;
+    int models_count;
     if (!(*file >> models_count))
     {
         std::string message = "Error in reading edges from file";
         throw FileError(message);
     }
-    for (size_t i = 0; i < models_count; i++)
+    for (int i = 0; i < models_count; i++)
     {
         builder->build_model(model_file_loader(file).load());
     }
@@ -63,13 +63,13 @@ void SceneFileLoader::load_models()
 
 void SceneFileLoader::load_cameras()
 {
-    size_t cameras_count;
+    int cameras_count;
     if (!(*file >> cameras_count))
     {
         std::string message = "Error in reading edges from file";
         throw FileError(message);
     }
-    for (size_t i = 0; i < cameras_count; i++)
+    for (int i = 0; i < cameras_count; i++)
         builder->build_camera(camera_file_loader(file).load());
 }
 
