@@ -25,4 +25,5 @@ public:
     void make_registration(Solution &_solution) override;
 };
 
+
 #endif

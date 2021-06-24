@@ -60,7 +60,7 @@ private:
 class ReformModel : public BaseCommand
 {
 public:
-    explicit ReformModel(int &index, Point &shift, Point &scale, Point &rotate) : index(index), shift(shift), scale(scale), rotate(rotate) {};
+    explicit ReformModel(int index, Point &shift, Point &scale, Point &rotate): index(index), shift(shift), scale(scale), rotate(rotate) {};
     void execute() override;
 
 private:
@@ -87,7 +87,7 @@ private:
 class RemoveModel : public BaseCommand
 {
 public:
-    explicit RemoveModel(int &index) : index(index) {};
+    explicit RemoveModel(int index) : index(index) {};
     void execute() override;
 
 private:

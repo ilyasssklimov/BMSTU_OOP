@@ -1,6 +1,6 @@
 #include "scene_manager.hpp"
 
-std::shared_ptr<scene_manager> scene_manager_creator::get_manager()
+std::shared_ptr<SceneManager> SceneManagerCreator::get_manager()
 {
     if (_manager == nullptr)
         create_manager();
@@ -8,28 +8,28 @@ std::shared_ptr<scene_manager> scene_manager_creator::get_manager()
     return _manager;
 }
 
-void scene_manager_creator::create_manager()
+void SceneManagerCreator::create_manager()
 {
-    static std::shared_ptr<scene_manager> _manager(new scene_manager());
+    static std::shared_ptr<SceneManager> _manager(new SceneManager());
     this->_manager = _manager;
 }
 
-scene_manager::scene_manager()
+SceneManager::SceneManager()
     :_scene(new Scene), _camera(nullptr)
 {
 }
 
-std::shared_ptr<Scene> scene_manager::get_scene()
+std::shared_ptr<Scene> SceneManager::get_scene()
 {
     return _scene;
 }
 
-std::shared_ptr<Camera> scene_manager::get_camera()
+std::shared_ptr<Camera> SceneManager::get_camera()
 {
     return _camera;
 }
 
-void scene_manager::set_camera(int index)
+void SceneManager::set_camera(int index)
 {
     if (_scene->get_cameras()->get_objects().size() < 1)
     {

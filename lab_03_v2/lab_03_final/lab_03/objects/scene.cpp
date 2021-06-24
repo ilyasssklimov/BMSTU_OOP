@@ -1,9 +1,11 @@
 #include "scene.hpp"
 
+using namespace std;
+
 Scene::Scene(): models(new Composite), cameras(new Composite) {}
 
 
-void Scene::add_model(std::shared_ptr<Object> _model)
+void Scene::add_model(shared_ptr<Object> _model)
 {
     models->add(_model);
 }

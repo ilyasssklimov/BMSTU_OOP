@@ -31,8 +31,7 @@ void RegistrationMaker::make_registration(Solution &_solution)
         throw ConfigError(message);
     }
 
-    is_registered = _solution.registration_factory(0,
-                          std::shared_ptr<AbstractFactory>(new QtFactory()));
+    is_registered = _solution.registration_factory(0, std::shared_ptr<AbstractFactory>(new QtFactory()));
     if (!is_registered)
     {
         std::string message = "";

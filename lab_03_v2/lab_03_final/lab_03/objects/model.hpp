@@ -6,7 +6,7 @@
 #include "visitor.hpp"
 
 
-class Model : public VisibleObject
+class Model: public VisibleObject
 {
     friend class Visitor;
 public:

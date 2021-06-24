@@ -5,6 +5,7 @@
 #include "model.hpp"
 #include "camera.hpp"
 
+
 class Scene
 {
 public:
@@ -26,5 +27,6 @@ private:
 
     std::shared_ptr<Composite> objects;
 };
+
 
 #endif

@@ -12,10 +12,11 @@ public:
 };
 
 
-class QtFactory : public AbstractFactory
+class QtFactory: public AbstractFactory
 {
 public:
     std::shared_ptr<BaseDrawer> create_ui() const override;
 };
+
 
 #endif

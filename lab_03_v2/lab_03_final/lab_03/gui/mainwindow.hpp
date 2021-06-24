@@ -30,7 +30,7 @@ protected:
 private slots:
   void on_add_cam_clicked();
 
-  void on_MainWindow_destroyed();
+  // void on_MainWindow_destroyed();
 
   void on_shift_fig_clicked();
 

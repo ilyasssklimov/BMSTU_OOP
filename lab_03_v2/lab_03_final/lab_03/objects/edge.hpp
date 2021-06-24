@@ -20,4 +20,5 @@ private:
     int point2;
 };
 
+
 #endif

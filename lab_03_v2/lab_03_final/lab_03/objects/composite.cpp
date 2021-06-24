@@ -1,10 +1,13 @@
 #include "composite.hpp"
+using namespace std;
 
-bool Composite::add(std::shared_ptr<Object> obj)
+
+bool Composite::add(shared_ptr<Object> obj)
 {
     objects.push_back(obj);
     return true;
 }
+
 
 bool Composite::remove(int index)
 {
@@ -13,14 +16,14 @@ bool Composite::remove(int index)
 }
 
 
-void Composite::accept(std::shared_ptr<Visitor> _visitor)
+void Composite::accept(shared_ptr<Visitor> _visitor)
 {
     for (auto obj : objects)
         obj->accept(_visitor);
 }
 
 
-void Composite::reform(std::shared_ptr<Matrix<double>> reform_mtr)
+void Composite::reform(shared_ptr<Matrix<double>> reform_mtr)
 {
     for (auto obj : objects)
         obj->reform(reform_mtr);

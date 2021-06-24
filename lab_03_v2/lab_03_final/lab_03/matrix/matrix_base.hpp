@@ -27,10 +27,8 @@ class MatrixBase
     };
 
 public:
-    //template <typename U>
     typedef typename std::vector<T>::iterator iterator;
     typedef typename std::vector<T>::const_iterator const_iterator;
-    //typedef ConstIterator<T> const_iterator;
 
     explicit MatrixBase(size_t, size_t);
     explicit MatrixBase(size_t, size_t, const T &);

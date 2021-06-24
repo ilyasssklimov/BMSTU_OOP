@@ -1,6 +1,10 @@
 #include "facade.hpp"
 
-void Facade::execute_command(std::shared_ptr<BaseCommand> command)
+
+using namespace std;
+
+
+void Facade::execute(shared_ptr<BaseCommand> command)
 {
     command->execute();
 }

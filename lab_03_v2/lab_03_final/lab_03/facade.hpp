@@ -4,10 +4,13 @@
 #include "commands.hpp"
 
 
+using namespace std;
+
+
 class Facade
 {
 public:
-    void execute_command(std::shared_ptr<BaseCommand> command);
+    void execute(shared_ptr<BaseCommand> command);
 };
 
 

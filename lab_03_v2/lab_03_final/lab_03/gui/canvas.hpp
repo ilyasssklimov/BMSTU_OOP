@@ -16,7 +16,7 @@ public:
 class QtCanvas : public BaseCanvas
 {
 public:
-    explicit QtCanvas(QGraphicsScene *canvas) : scene(canvas) {}
+    explicit QtCanvas(QGraphicsScene *canvas): scene(canvas) {}
     void create_line(const Point &p1, const Point &p2) override;
     void clear() override;
 

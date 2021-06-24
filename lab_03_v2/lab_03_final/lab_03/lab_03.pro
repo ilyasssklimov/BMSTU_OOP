@@ -99,6 +99,7 @@ FORMS += \
 
 DISTFILES += \
     3.pro.user \
+    cam.txt \
     cam1.txt \
     cube.txt \
     data/camera_load.cfg \

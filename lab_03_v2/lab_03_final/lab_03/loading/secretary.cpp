@@ -4,46 +4,55 @@
 #include "camera_load_solution.hpp"
 #include "scene_load_solution.hpp"
 
+
+using namespace std;
+
+
 ModelSecretary::ModelSecretary()
 {
-    std::shared_ptr<LoaderCreator> cr = ModelLoadSolution().get_creator();
-    src_loader = std::shared_ptr<SourceLoader>(cr->create_loader());
+    shared_ptr<LoaderCreator> creator = ModelLoadSolution().get_creator();
+    src_loader = shared_ptr<SourceLoader>(creator->create_loader());
 }
 
-std::shared_ptr<Object> ModelSecretary::load(std::string name)
+
+shared_ptr<Object> ModelSecretary::load(string name)
 {
     src_loader->open(name);
-    std::shared_ptr<Object> _model = src_loader->load();
+    shared_ptr<Object> _model = src_loader->load();
     src_loader->close();
 
     return _model;
 }
 
+
 CameraSecretary::CameraSecretary()
 {
-    std::shared_ptr<LoaderCreator> cr = CameraLoadSolution().get_creator();
-    src_loader = std::shared_ptr<SourceLoader>(cr->create_loader());
+    shared_ptr<LoaderCreator> creator = CameraLoadSolution().get_creator();
+    src_loader = shared_ptr<SourceLoader>(creator->create_loader());
 }
 
-std::shared_ptr<Object> CameraSecretary::load(std::string name)
+
+shared_ptr<Object> CameraSecretary::load(string name)
 {
     src_loader->open(name);
-    std::shared_ptr<Object> _camera = src_loader->load();
+    shared_ptr<Object> _camera = src_loader->load();
     src_loader->close();
 
     return _camera;
 }
 
+
 SceneSecretary::SceneSecretary()
 {
-    std::shared_ptr<SceneLoaderCreator> cr = SceneLoadSolution().get_creator();
-    src_loader = std::shared_ptr<BaseSceneLoader>(cr->create_loader());
+    shared_ptr<SceneLoaderCreator> creator = SceneLoadSolution().get_creator();
+    src_loader = std::shared_ptr<BaseSceneLoader>(creator->create_loader());
 }
 
-std::shared_ptr<Scene> SceneSecretary::load(std::string name)
+
+shared_ptr<Scene> SceneSecretary::load(string name)
 {
     src_loader->open(name);
-    std::shared_ptr<Scene> _scene = src_loader->load();
+    shared_ptr<Scene> _scene = src_loader->load();
     src_loader->close();
 
     return _scene;
