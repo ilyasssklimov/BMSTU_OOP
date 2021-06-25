@@ -8,6 +8,9 @@
 #include "edge.hpp"
 
 
+using namespace std;
+
+
 class Details
 {
 public:
@@ -17,14 +20,14 @@ public:
     void add_point(Point pt);
     void add_edge(Edge ed);
 
-    void reform(std::shared_ptr<Matrix<double>> reform_mtr);
+    void reform(shared_ptr<Matrix<double>> reform_mtr);
 
-    std::vector<Point> get_points();
-    std::vector<Edge> get_edges();
+    vector<Point> get_points();
+    vector<Edge> get_edges();
 
 private:
-    std::vector<Point> points;
-    std::vector<Edge> edges;
+    vector<Point> points;
+    vector<Edge> edges;
 };
 
 #endif

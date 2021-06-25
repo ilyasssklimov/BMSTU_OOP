@@ -9,9 +9,17 @@ bool Composite::add(shared_ptr<Object> obj)
 }
 
 
-bool Composite::remove(int index)
+bool Composite::remove(int id)
 {
-    objects.erase(objects.begin() + index);
+    vector<shared_ptr<Object>>::iterator it = objects.begin();
+    while (it != objects.end())
+    {
+        if ((*it)->get_id() == id)
+               break;
+        it++;
+    }
+
+    objects.erase(it);
     return true;
 }
 

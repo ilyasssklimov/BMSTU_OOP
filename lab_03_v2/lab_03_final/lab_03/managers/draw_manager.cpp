@@ -37,5 +37,5 @@ void DrawManager::set_camera(shared_ptr<Camera> _camera)
 
 void DrawManager::draw(shared_ptr<Scene> _scene)
 {
-    _scene->get_models()->accept(shared_ptr<Visitor>(new Visitor(_drawer)));
+    _scene->get_objects()->accept(shared_ptr<Visitor>(new Visitor(_camera, _drawer)));
 }

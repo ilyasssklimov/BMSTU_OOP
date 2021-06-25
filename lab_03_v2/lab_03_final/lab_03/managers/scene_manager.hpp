@@ -20,7 +20,7 @@ public:
     shared_ptr<Camera> get_camera();
     void set_camera(int cam_index);
 
-    bool is_camera_exist() { return _camera != nullptr; }
+    bool is_camera_exist();
 
 private:
     shared_ptr<Scene> _scene;

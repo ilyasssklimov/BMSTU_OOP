@@ -14,6 +14,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include "drawer_solution.hpp"
+#include "scene_manager.hpp"
+#include <string>
 using namespace std;
 
 
@@ -34,15 +36,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->xy_angle_fig->setPlaceholderText(QString("ox"));
     ui->yz_angle_fig->setPlaceholderText(QString("oy"));
     ui->zx_angle_fig->setPlaceholderText(QString("oz"));
-    ui->x_shift_cam->setPlaceholderText(QString("dx"));
-    ui->y_shift_cam->setPlaceholderText(QString("dy"));
-    ui->z_shift_cam->setPlaceholderText(QString("dz"));
-    ui->xy_angle_cam->setPlaceholderText(QString("ox"));
-    ui->yz_angle_cam->setPlaceholderText(QString("oy"));
-    ui->zx_angle_cam->setPlaceholderText(QString("oz"));
     ui->file_name->setPlaceholderText(QString("Имя файла"));
     ui->file_name_camera->setPlaceholderText(QString("Имя файла"));
-    ui->nums_figs->setPlaceholderText(QString("Индекс модели"));
 }
 
 
@@ -54,16 +49,24 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_shift_fig_clicked()
 {
-    QStringList indexes = ui->nums_figs->text().split(QRegExp(" "));
+    QModelIndexList selectedRows = ui->tableWidget->selectionModel()->selectedRows();
+    if (selectedRows.size() <= 0)
+    {
+        QMessageBox::information(this, "Error", "Выберите хотя бы один объект из списка");
+        return;
+    }
 
     Point shift(ui->x_shift_fig->text().toDouble(), ui->y_shift_fig->text().toDouble(), ui->z_shift_fig->text().toDouble());
     Point scale(1, 1, 1);
     Point rotate(0, 0, 0);
 
-    for(QString index: indexes)
+    for(int i = 0; i < selectedRows.size(); i++)
     {
-       shared_ptr<BaseCommand> command(new ReformModel(index.toInt(), shift, scale, rotate));
-       _facade->execute(command);
+        string name = ui->tableWidget->item(selectedRows[0].row(), 0)->text().toStdString();
+        string id = name.substr(name.find("№") + 1);
+
+        shared_ptr<BaseCommand> command(new ReformObject(atoi(id.c_str()), shift, scale, rotate));
+        _facade->execute(command);
     }
 
     update_scene();
@@ -72,34 +75,52 @@ void MainWindow::on_shift_fig_clicked()
 
 void MainWindow::on_rotate_fig_clicked()
 {
-    QStringList indexes = ui->nums_figs->text().split(QRegExp(" "));
+    QModelIndexList selectedRows = ui->tableWidget->selectionModel()->selectedRows();
+    if (selectedRows.size() <= 0)
+    {
+        QMessageBox::information(this, "Error", "Выберите хотя бы один объект из списка");
+        return;
+    }
 
     Point shift(0, 0, 0);
     Point scale(1, 1, 1);
     Point rotate(ui->xy_angle_fig->text().toDouble(), ui->yz_angle_fig->text().toDouble(), ui->zx_angle_fig->text().toDouble());
 
-    for(QString index: indexes)
+    for(int i = 0; i < selectedRows.size(); i++)
     {
-        shared_ptr<BaseCommand> command(new ReformModel(index.toInt(), shift, scale, rotate));
+        string name = ui->tableWidget->item(selectedRows[0].row(), 0)->text().toStdString();
+        string id = name.substr(name.find("№") + 1);
+
+        shared_ptr<BaseCommand> command(new ReformObject(atoi(id.c_str()), shift, scale, rotate));
         _facade->execute(command);
     }
+
     update_scene();
 }
 
 
 void MainWindow::on_scale_fig_clicked()
 {
-    QStringList indexes = ui->nums_figs->text().split(QRegExp(" "));
+    QModelIndexList selectedRows = ui->tableWidget->selectionModel()->selectedRows();
+    if (selectedRows.size() <= 0)
+    {
+        QMessageBox::information(this, "Error", "Выберите хотя бы один объект из списка");
+        return;
+    }
 
     Point shift(0, 0, 0);
     Point scale(ui->x_scale_fig->text().toDouble(), ui->y_scale_fig->text().toDouble(), ui->z_scale_fig->text().toDouble());
     Point rotate(0, 0, 0);
 
-    for(QString index: indexes)
+    for(int i = 0; i < selectedRows.size(); i++)
     {
-        shared_ptr<BaseCommand> command(new ReformModel(index.toInt(), shift, scale, rotate));
+        string name = ui->tableWidget->item(selectedRows[0].row(), 0)->text().toStdString();
+        string id = name.substr(name.find("№") + 1);
+
+        shared_ptr<BaseCommand> command(new ReformObject(atoi(id.c_str()), shift, scale, rotate));
         _facade->execute(command);
     }
+
 
     update_scene();
 }
@@ -112,26 +133,16 @@ void MainWindow::on_import_fig_clicked()
     {
         _facade->execute(command);
         update_scene();
+
+        ui->tableWidget->setRowCount(ui->tableWidget->rowCount() + 1);
+        int number = SceneManagerCreator().get_manager()->get_scene()->get_last_id();
+        ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, new QTableWidgetItem(QStringLiteral("Модель №%1").arg(number)));
+
     }
     catch (BaseError &er)
     {
         print_message(er.get_info());
     }
-}
-
-
-void MainWindow::on_remove_fig_clicked()
-{
-    QStringList indexes = ui->nums_figs->text().split(QRegExp(" "));
-
-    for(QString index: indexes)
-    {
-        shared_ptr<BaseCommand> command(new RemoveModel(index.toInt()));
-        _facade->execute(command);
-        ui->nums_figs->clear();
-    }
-
-    update_scene();
 }
 
 
@@ -147,33 +158,13 @@ void MainWindow::on_add_cam_clicked()
 {
     shared_ptr<BaseCommand> command(new LoadCamera(ui->file_name_camera->text().toStdString()));
     _facade->execute(command);
-    ui->camera_select->addItem(QString::number(ui->camera_select->count()));
-    ui->camera_select->setCurrentIndex(ui->camera_select->count() - 1);
 
-    update_scene();
-}
+    ui->tableWidget->insertRow(ui->tableWidget->rowCount());
+    int number = SceneManagerCreator().get_manager()->get_scene()->get_last_id();
+    ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, new QTableWidgetItem(QStringLiteral("Камера №%1").arg(number)));
 
-
-void MainWindow::on_shift_cam_clicked()
-{
-    int index = ui->camera_select->currentIndex();
-    Point shift(ui->x_shift_cam->text().toDouble(), ui->y_shift_cam->text().toDouble(), ui->z_shift_cam->text().toDouble());
-    Point rotate(0, 0, 0);
-    shared_ptr<BaseCommand> command(new ReformCamera(index, shift, rotate));
-    _facade->execute(command);
-
-    update_scene();
-}
-
-
-void MainWindow::on_rotate_cam_clicked()
-{
-    int index = ui->camera_select->currentIndex();
-    Point shift(0, 0, 0);
-    Point rotate(ui->xy_angle_cam->text().toDouble(), ui->yz_angle_cam->text().toDouble(), ui->zx_angle_cam->text().toDouble());
-    shared_ptr<BaseCommand> command(new ReformCamera(index, shift, rotate));
-    _facade->execute(command);
-
+    ui->tableWidget->selectRow(ui->tableWidget->rowCount() - 1);
+    on_set_cam_clicked();
     update_scene();
 }
 
@@ -195,6 +186,7 @@ void MainWindow::setup_scene()
     }
 }
 
+
 void MainWindow::update_scene()
 {
     shared_ptr<BaseCommand> command(new DrawScene(drawer));
@@ -202,30 +194,45 @@ void MainWindow::update_scene()
 }
 
 
-// void MainWindow::on_MainWindow_destroyed() {}
-
-
-void MainWindow::on_remove_cam_clicked()
+void MainWindow::on_remove_obj_clicked()
 {
-    int index = ui->camera_select->currentIndex();
-    shared_ptr<BaseCommand> command(new RemoveCamera(index));
-    try
+    QModelIndexList selectedRows = ui->tableWidget->selectionModel()->selectedRows();
+    if (selectedRows.size() <= 0)
     {
-        _facade->execute(command);
-        ui->camera_select->removeItem(index);
+        QMessageBox::information(this, "Error", "Выберите хотя бы один объект из списка");
+        return;
+    }
 
-        update_scene();
-    }
-    catch (BaseError &er)
+    for (int i = 0; i < selectedRows.size(); i++)
     {
-        print_message(er.get_info());
+        while (!selectedRows.empty())
+        {
+            string name = ui->tableWidget->item(selectedRows[0].row(), 0)->text().toStdString();
+            string id = name.substr(name.find("№") + 1);
+
+            shared_ptr<BaseCommand> command(new RemoveObject(atoi(id.c_str())));
+            _facade->execute(command);
+
+            ui->tableWidget->removeRow(selectedRows[0].row());
+            selectedRows = ui->tableWidget->selectionModel()->selectedRows();
+        }
     }
+    update_scene();
 }
 
 
-void MainWindow::on_camera_select_currentIndexChanged(int index)
+void MainWindow::on_set_cam_clicked()
 {
-    shared_ptr<BaseCommand> command(new SetCamera(index));
+    QModelIndexList selectedRows = ui->tableWidget->selectionModel()->selectedRows();
+    if (selectedRows.size() <= 0)
+    {
+        QMessageBox::information(this, "Error", "Выберите хотя бы один объект из списка");
+        return;
+    }
+
+    int id = ui->tableWidget->item(selectedRows[0].row(), 0)->text().toInt();
+
+    shared_ptr<BaseCommand> command(new SetCamera(id));
     _facade->execute(command);
 
     update_scene();

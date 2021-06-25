@@ -5,17 +5,20 @@
 #include "drawer.hpp"
 
 
+using namespace std;
+
+
 class AbstractFactory
 {
 public:
-    virtual std::shared_ptr<BaseDrawer> create_ui() const = 0;
+    virtual shared_ptr<BaseDrawer> create_ui() const = 0;
 };
 
 
 class QtFactory: public AbstractFactory
 {
 public:
-    std::shared_ptr<BaseDrawer> create_ui() const override;
+    shared_ptr<BaseDrawer> create_ui() const override;
 };
 
 

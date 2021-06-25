@@ -14,6 +14,7 @@ shared_ptr<ReformManager> ReformManagerCreator::get_manager()
     return _manager;
 }
 
+
 void ReformManagerCreator::create_manager()
 {
     static shared_ptr<ReformManager> _manager(new ReformManager());
@@ -49,27 +50,3 @@ void ReformManager::rotate_model(shared_ptr<Object> obj, Point &rotate)
     reform_matrix = make_shared<RotateOzMatrix>(angles.get_z());
     obj->reform(reform_matrix);
 }
-
-
-/*
-
-
-void ReformManager::scale_model(std::shared_ptr<Object> obj, Point &scale)
-{
-    std::shared_ptr<Matrix<double>> reform_mtr(std::make_shared<ScaleMatrix>(scale));
-    obj->reform(reform_mtr);
-}
-
-void ReformManager::rotate_model(std::shared_ptr<Object> obj, Point &rotate)
-{
-    Point angles = rotate.deg_to_rad();
-    std::shared_ptr<Matrix<double>> reform_mtr(std::make_shared<RotateOxMatrix>(angles.get_x()));
-    obj->reform(reform_mtr);
-
-    reform_mtr = std::make_shared<RotateOyMatrix>(angles.get_y());
-    obj->reform(reform_mtr);
-
-    reform_mtr = std::make_shared<RotateOzMatrix>(angles.get_z());
-    obj->reform(reform_mtr);
-}
-*/

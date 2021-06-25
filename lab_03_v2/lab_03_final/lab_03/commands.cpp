@@ -21,7 +21,8 @@ void LoadModel::execute()
     shared_ptr<LoadManager> _load_manager = LoadManagerCreator().get_manager();
     _load_manager->set_secretary(shared_ptr<LoadSecretary>(new ModelSecretary));
     shared_ptr<Object> _model = _load_manager->load(name);
-    SceneManagerCreator().get_manager()->get_scene()->add_model(_model);
+    _model->set_id(SceneManagerCreator().get_manager()->get_scene()->get_last_id());
+    SceneManagerCreator().get_manager()->get_scene()->add_object(_model);
 }
 
 
@@ -30,7 +31,8 @@ void LoadCamera::execute()
     shared_ptr<LoadManager> _load_manager = LoadManagerCreator().get_manager();
     _load_manager->set_secretary(shared_ptr<LoadSecretary>(new CameraSecretary));
     shared_ptr<Object> _camera = _load_manager->load(name);
-    SceneManagerCreator().get_manager()->get_scene()->add_camera(_camera);
+    _camera->set_id(SceneManagerCreator().get_manager()->get_scene()->get_last_id());
+    SceneManagerCreator().get_manager()->get_scene()->add_object(_camera);
 }
 
 
@@ -39,7 +41,7 @@ void LoadScene::execute()
     shared_ptr<LoadManager> _load_manager = LoadManagerCreator().get_manager();
     _load_manager->set_scene_secretary(shared_ptr<SceneSecretary>());
     shared_ptr<Object> _scene = _load_manager->load(name);
-    SceneManagerCreator().get_manager()->get_scene()->add_camera(_scene);
+    SceneManagerCreator().get_manager()->get_scene()->add_object(_scene);
 }
 
 
@@ -47,7 +49,7 @@ void DrawScene::execute()
 {
     if (!SceneManagerCreator().get_manager()->is_camera_exist())
     {
-        string message = "There is no camera";
+        string message = "Произошла ошибка, так как отсутствует камера";
         throw NoCameraError(message);
     }
 
@@ -62,7 +64,7 @@ void DrawScene::execute()
 
 void ReformModel::execute()
 {
-    shared_ptr<Object> _model = SceneManagerCreator().get_manager()->get_scene()->get_models()->get_objects().at(index);
+    shared_ptr<Object> _model = SceneManagerCreator().get_manager()->get_scene()->get_object(index);
 
     ReformManagerCreator().get_manager()->shift_model(_model, shift);
     ReformManagerCreator().get_manager()->scale_model(_model, scale);
@@ -72,7 +74,7 @@ void ReformModel::execute()
 
 void ReformCamera::execute()
 {
-    shared_ptr<Object> _camera = SceneManagerCreator().get_manager()->get_scene()->get_cameras()->get_objects().at(index);
+    shared_ptr<Object> _camera = SceneManagerCreator().get_manager()->get_scene()->get_object(index);
     ReformManagerCreator().get_manager()->shift_model(_camera, shift);
 
     shared_ptr<Matrix<double>> reform_mtr(make_shared<MoveMatrix>(rotate));
@@ -80,15 +82,32 @@ void ReformCamera::execute()
 }
 
 
+void ReformObject::execute()
+{
+    shared_ptr<Object> _object = SceneManagerCreator().get_manager()->get_scene()->get_object(id);
+
+    ReformManagerCreator().get_manager()->shift_model(_object, shift);
+    ReformManagerCreator().get_manager()->scale_model(_object, scale);
+    ReformManagerCreator().get_manager()->rotate_model(_object, rotate);
+
+}
+
+
 void RemoveModel::execute()
 {
-    SceneManagerCreator().get_manager()->get_scene()->remove_model(index);
+    SceneManagerCreator().get_manager()->get_scene()->remove_object(index);
 }
 
 
 void RemoveCamera::execute()
 {
-    SceneManagerCreator().get_manager()->get_scene()->remove_camera(index);
+    SceneManagerCreator().get_manager()->get_scene()->remove_object(index);
+}
+
+
+void RemoveObject::execute()
+{
+    SceneManagerCreator().get_manager()->get_scene()->remove_object(id);
 }
 
 

@@ -65,13 +65,13 @@ std::shared_ptr<Scene> SceneBuilder::get()
 
 void SceneBuilder::build_model(const std::shared_ptr<Object> &_model)
 {
-    _scene->add_model(_model);
+    _scene->add_object(_model);
 }
 
 
 void SceneBuilder::build_camera(const std::shared_ptr<Object> &_camera)
 {
-    _scene->add_camera(_camera);
+    _scene->add_object(_camera);
 }
 
 

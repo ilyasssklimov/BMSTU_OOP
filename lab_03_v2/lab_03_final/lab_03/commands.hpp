@@ -84,6 +84,20 @@ private:
 };
 
 
+class ReformObject : public BaseCommand
+{
+public:
+    explicit ReformObject(int id, Point &shift, Point &scale, Point &rotate): id(id), shift(shift), scale(scale), rotate(rotate) {};
+    void execute() override;
+
+private:
+    int id;
+    Point shift;
+    Point scale;
+    Point rotate;
+};
+
+
 class RemoveModel : public BaseCommand
 {
 public:
@@ -92,6 +106,17 @@ public:
 
 private:
     int index;
+};
+
+
+class RemoveObject: public BaseCommand
+{
+public:
+    explicit RemoveObject(int id) : id(id) {};
+    void execute() override;
+
+private:
+    int id;
 };
 
 

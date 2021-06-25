@@ -40,6 +40,7 @@ SOURCES += \
     objects/details.cpp \
     objects/edge.cpp \
     objects/model.cpp \
+    objects/object.cpp \
     objects/point.cpp \
     objects/scene.cpp \
     solution/camera_load_solution.cpp \
@@ -53,6 +54,7 @@ HEADERS += \
     commands.hpp \
     errors.hpp \
     facade.hpp \
+    gui/base_visitor.hpp \
     gui/canvas.hpp \
     gui/drawer.hpp \
     gui/drawer_factory.hpp \

@@ -7,7 +7,7 @@
 using namespace std;
 
 
-Visitor::Visitor(const shared_ptr<BaseDrawer> _drawer): _drawer(_drawer) {}
+Visitor::Visitor(const shared_ptr<Camera> &_camera, const shared_ptr<BaseDrawer> _drawer): _camera(_camera), _drawer(_drawer) {}
 
 
 void Visitor::visit_model(Model &_model)
@@ -35,13 +35,13 @@ void Visitor::visit_model(Model &_model)
 Point Visitor::get_projection(Point &_point)
 {
     Point projection(_point);
-    Point move(-SceneManagerCreator().get_manager()->get_camera()->get_position().get_x(),
-               -SceneManagerCreator().get_manager()->get_camera()->get_position().get_y(), 0);
-    shared_ptr<Matrix<double>> reform_mtr(make_shared<MoveMatrix>(SceneManagerCreator().get_manager()->get_camera()->get_position()));
+    Point move(-_camera->get_position().get_x(), -_camera->get_position().get_y(), 0);
+    shared_ptr<Matrix<double>> reform_mtr(make_shared<MoveMatrix>(_camera->get_position()));
 
     projection.reform(reform_mtr);
 
-    Point angles = SceneManagerCreator().get_manager()->get_camera()->get_angles().deg_to_rad();
+    Point angles = _camera->get_angles().deg_to_rad();
+
     reform_mtr = make_shared<RotateOxMatrix>(-angles.get_x());
     projection.reform(reform_mtr);
 
@@ -53,3 +53,9 @@ Point Visitor::get_projection(Point &_point)
 
     return projection;
 }
+
+
+void Visitor::visit_camera(Camera &) {}
+
+
+void Visitor::visit_composite(Composite &) {}
