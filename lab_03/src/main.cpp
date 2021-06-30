@@ -1,20 +1,26 @@
-#include "./interface/mainwindow.h"
-#include "config/config_creator.h"
-#include "config/config_reader.h"
 #include <QApplication>
 
+#include <QScreen>
+#include <QStyle>
 
-int main(int argc, char *argv[])
-{
-    auto config = ConfigCreator().get_config();
+#include <driver/configuration/configuration_creator.h>
 
-    if (config->get_frame() == ConfigReader::QT)
-    {
-        QApplication a(argc, argv);
-        MainWindow w;
-        w.show();
-        return a.exec();
+#include <gui/qt/mainwindow.h>
+
+int main(int argc, char *argv[]) {
+    auto _conf = ConfigurationCreator().get_configuration();
+
+    switch (_conf->get_frame()) {
+        case AbstractConfiguration::QT:
+        default:
+            QApplication a(argc, argv);
+
+            MainWindow window;
+            window.setGeometry(QStyle::alignedRect(
+                    Qt::LeftToRight, Qt::AlignCenter, window.size(),
+                    QGuiApplication::primaryScreen()->availableGeometry()));
+            window.show();
+
+            return QApplication::exec();
     }
-
-    return 0;
 }
